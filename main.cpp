@@ -4,8 +4,6 @@ using namespace std;
 #include <string.h>
 #define MAX 256
 
-void clean(char *);
-
 int main() {
 	// create a pipe
 	int fd[2];
@@ -36,11 +34,5 @@ int main() {
 			cout << "\n\t\t\tMessage received: " << data << endl;
 		}
 
-	}
-}
-
-void clean(char* data) {
-	for (int i = 0; i < MAX; i++) {
-		data[i] = '\0';
 	}
 }
