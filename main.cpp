@@ -22,17 +22,17 @@ int main() {
 		string data;
 		while (true) {
 			cout << "Enter a word: ";	
-			cin >> data;
+			getline(cin, data);
 			const char* c_string = data.c_str();
-			write(fd[1], c_string, strlen(c_string));
+			write(fd[1], c_string, strlen(c_string) + 1);
 		}
 		exit(0);
 
 	} else { // parent process
 		char data[MAX];
 		while (true) {
-			clean(data);
 			read(fd[0], data, sizeof(data));
+			string rd_string(data);
 			cout << "\n\t\t\tMessage received: " << data << endl;
 		}
 
