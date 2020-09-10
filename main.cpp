@@ -19,6 +19,7 @@ int main() {
 		printf("cannot fork()\n");
 		exit(1);
 	} else if (pid == 0) { // child process
+		close(fd[RD_END]);
 		char data[MAX];
 		while (true) {
 			printf("CHILD: Enter a message: ");
@@ -28,6 +29,7 @@ int main() {
 		exit(0);
 
 	} else { // parent process
+		close(fd[WR_END]);
 		char data[MAX];
 		while (true) {
 			read(fd[RD_END], data, sizeof(data));
