@@ -22,11 +22,11 @@ int main() {
 		close(fd[RD_END]);
 		char data[MAX];
 		while (true) {
-			printf("CHILD: Enter a message (or quit): ");
+			printf("CHILD: Enter a message (or Q to quit): ");
 			fgets(data, MAX, stdin); // reads with '\n'
 			data[strlen(data) - 1] = '\0'; // remove '\n'
 			write(fd[WR_END], data, strlen(data) + 1);
-			if (strcmp(data, "quit") == 0)
+			if (strcmp(data, "Q") == 0)
 				break;
 		}
 		exit(0);
@@ -36,8 +36,8 @@ int main() {
 		char data[MAX];
 		while (true) {
 			read(fd[RD_END], data, sizeof(data));
-			printf("\t| PARENT received: %s\n", data);
-			if (strcmp(data, "quit") == 0)
+			printf("\t| PARENT has received: %s\n", data);
+			if (strcmp(data, "Q") == 0)
 				break;
 		}
 	}
