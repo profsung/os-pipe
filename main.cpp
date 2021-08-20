@@ -18,8 +18,7 @@ int main() {
 	if (pid < 0) {
 		printf("cannot fork()\n");
 		exit(1);
-	}
-	else if (pid == 0) {
+	} else if (pid == 0) {
 		// child process: send data to parent
 		close(fd[RD_END]); // keep open for WR_END
 		char data[MAX];
@@ -32,10 +31,8 @@ int main() {
 				break;
 		}
 		exit(0);
-	}
-	else {
-		// parent process
-		// receives data from child
+	} else {
+		// parent process: receives data from child
 		close(fd[WR_END]); // keep open for RD_END
 		char data[MAX];
 		while (true) {
