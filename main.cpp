@@ -3,8 +3,8 @@
 #include <stdio.h> // printf
 #include <stdlib.h> // exit
 #define MAX 256
-#define RD_END 0
-#define WR_END 1
+#define RD_END 0 // fd[0]
+#define WR_END 1 // fd[1]
 
 int main() {
 	// create a pipe
@@ -18,7 +18,9 @@ int main() {
 	if (pid < 0) {
 		printf("cannot fork()\n");
 		exit(1);
-	} else if (pid == 0) { // child process
+	} else if (pid == 0) {
+		// child process
+		// send data to parent
 		close(fd[RD_END]);
 		char data[MAX];
 		while (true) {
@@ -31,7 +33,9 @@ int main() {
 		}
 		exit(0);
 
-	} else { // parent process
+	} else {
+		// parent process
+		// receives data from child
 		close(fd[WR_END]);
 		char data[MAX];
 		while (true) {
