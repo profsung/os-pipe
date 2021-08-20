@@ -40,7 +40,7 @@ int main() {
 		char data[MAX];
 		while (true) {
 			read(fd[RD_END], data, sizeof(data));
-			printf("\t| PARENT has received: %s\n", data);
+			printf("\t(PARENT has received: %s)\n", data);
 			if (strcmp(data, "Q") == 0)
 				break;
 		}
