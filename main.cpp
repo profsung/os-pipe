@@ -1,8 +1,9 @@
 #include <unistd.h> // fork pipe
+#include <sys/wait.h> // wait
 #include <string.h> // strlen
 #include <stdio.h> // printf
 #include <stdlib.h> // exit
-#define MAX 256
+#define MAX 1024
 #define RD_END 0 // fd[0]
 #define WR_END 1 // fd[1]
 
@@ -18,10 +19,11 @@ int main() {
 	if (pid < 0) {
 		printf("cannot fork()\n");
 		exit(1);
-	} else if (pid == 0) {
+	}
+	else if (pid == 0) {
 		// child process
 		// send data to parent
-		close(fd[RD_END]);
+		close(fd[RD_END]); // keep open for WR_END
 		char data[MAX];
 		while (true) {
 			printf("CHILD: Enter a message (or Q to quit): ");
@@ -33,16 +35,27 @@ int main() {
 		}
 		exit(0);
 
-	} else {
+	}
+	else {
 		// parent process
 		// receives data from child
-		close(fd[WR_END]);
+		close(fd[WR_END]); // keep opnf for RD_END
 		char data[MAX];
 		while (true) {
 			read(fd[RD_END], data, sizeof(data));
 			printf("\t(PARENT has received: %s)\n", data);
 			if (strcmp(data, "Q") == 0)
 				break;
+		}
+
+		int status = 0;
+		for (; ; ) {
+			printf("Parent: wating for child process to terminate\n");
+			pid_t exit_pid = wait(&status);
+			if (exit_pid == pid) {
+				printf("Child process terminated with status: %d\n", status);
+				break;
+			}
 		}
 	}
 }
