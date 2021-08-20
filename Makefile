@@ -3,3 +3,6 @@ a.out: main.cpp
 
 clean:
 	rm a.out
+
+zip:
+	zip pipe.zip main.cpp Makefile
