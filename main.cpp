@@ -1,6 +1,6 @@
 #include <unistd.h> // fork pipe
 #include <sys/wait.h> // wait
-#include <string.h> // strlen
+#include <string.h> // strlen strcmp
 #include <stdio.h> // printf
 #include <stdlib.h> // exit
 #define MAX 1024
@@ -8,9 +8,8 @@
 #define WR_END 1 // fd[1]
 
 int main() {
-	// create a pipe
 	int fd[2];
-	if (pipe(fd) < 0) {
+	if (pipe(fd) < 0) { // create a pipe
 		printf("cannot create a pipe.\n");
 		exit(1);
 	}
@@ -21,8 +20,7 @@ int main() {
 		exit(1);
 	}
 	else if (pid == 0) {
-		// child process
-		// send data to parent
+		// child process: send data to parent
 		close(fd[RD_END]); // keep open for WR_END
 		char data[MAX];
 		while (true) {
@@ -34,12 +32,11 @@ int main() {
 				break;
 		}
 		exit(0);
-
 	}
 	else {
 		// parent process
 		// receives data from child
-		close(fd[WR_END]); // keep opnf for RD_END
+		close(fd[WR_END]); // keep open for RD_END
 		char data[MAX];
 		while (true) {
 			read(fd[RD_END], data, sizeof(data));
@@ -49,7 +46,7 @@ int main() {
 		}
 
 		int status = 0;
-		for (; ; ) {
+		for ( ; ; ) {
 			printf("Parent: wating for child process to terminate\n");
 			pid_t exit_pid = wait(&status);
 			if (exit_pid == pid) {
