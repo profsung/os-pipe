@@ -1,7 +1,7 @@
 #include <unistd.h> // fork pipe
 #include <sys/wait.h> // wait
 #include <string.h> // strlen strcmp
-#include <stdio.h> // printf
+#include <stdio.h> // printf scanf
 #include <stdlib.h> // exit
 #define MAX 1024
 #define RD_END 0 // fd[0]
